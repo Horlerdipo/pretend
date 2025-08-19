@@ -2,9 +2,9 @@
 
 namespace Horlerdipo\Pretend\Tests;
 
+use Horlerdipo\Pretend\PretendServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Horlerdipo\Pretend\PretendServiceProvider;
 
 class TestCase extends Orchestra
 {

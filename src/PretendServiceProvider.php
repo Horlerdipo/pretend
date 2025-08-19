@@ -2,9 +2,9 @@
 
 namespace Horlerdipo\Pretend;
 
+use Horlerdipo\Pretend\Commands\PretendCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Horlerdipo\Pretend\Commands\PretendCommand;
 
 class PretendServiceProvider extends PackageServiceProvider
 {

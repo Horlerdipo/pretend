@@ -2,11 +2,16 @@
 
 namespace Horlerdipo\Pretend;
 
+use Carbon\Unit;
+use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
+use Horlerdipo\Pretend\DTOs\ImpersonationData;
 use Horlerdipo\Pretend\Enums\Duration;
 use Horlerdipo\Pretend\Exceptions\ModelMissingAuthenticatableInterface;
 use Horlerdipo\Pretend\Exceptions\ModelMissingHasTokenTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionException;
 
@@ -19,12 +24,12 @@ class Pretend
     // ->withAbilities(['*'])
     // ->start();
 
-    public Model $from;
-    public Model $toBe;
+    public Model $impersonator;
+    public Model $impersonated;
 
     public int $for;
 
-    public Duration $duration;
+    public Unit $duration;
 
     /**
      * @var string[]
@@ -34,7 +39,7 @@ class Pretend
 
     final public function __construct(Model $from)
     {
-        $this->from = $from;
+        $this->impersonator = $from;
     }
 
     public static function from(Model $model): static
@@ -60,11 +65,11 @@ class Pretend
             throw new ModelMissingHasTokenTrait("$model::class missing the Laravel\\Sanctum\\HasApiTokens trait");
         }
 
-        $this->toBe = $model;
+        $this->impersonated = $model;
         return $this;
     }
 
-    public function for(int $time, Duration $duration = Duration::MINUTE): self
+    public function for(int $time, Unit $duration = Unit::Minute): self
     {
         $this->for = $time;
         $this->duration = $duration;
@@ -72,32 +77,32 @@ class Pretend
     }
 
     public function seconds(): self {
-        $this->duration = Duration::SECOND;
+        $this->duration = Unit::Second;
         return $this;
     }
 
     public function minutes(): self {
-        $this->duration = Duration::MINUTE;
+        $this->duration = Unit::Minute;
         return $this;
     }
 
     public function hours(): self {
-        $this->duration = Duration::HOUR;
+        $this->duration = Unit::Hour;
         return $this;
     }
 
     public function days(): self {
-        $this->duration = Duration::DAY;
+        $this->duration = Unit::Day;
         return $this;
     }
 
     public function months(): self {
-        $this->duration = Duration::MONTH;
+        $this->duration = Unit::Month;
         return $this;
     }
 
     public function years(): self {
-        $this->duration = Duration::YEAR;
+        $this->duration = Unit::Year;
         return $this;
     }
 
@@ -111,6 +116,29 @@ class Pretend
     }
 
     public function start(): string {
-        return '';
+
+        $key = Str::random(config()->integer('pretend.impersonation_key_length'));
+
+        /** @var HasImpersonationStorage $storageImplementation */
+        $storageImplementation = app(HasImpersonationStorage::class);
+        $storageImplementation->store($this->buildDto($key));
+
+        return $key;
+    }
+
+    protected function buildDto(string $key): ImpersonationData
+    {
+        return new ImpersonationData(
+            impersonatorType: $this->impersonator::class,
+            impersonatorId: $this->impersonator->getKey(),
+            impersonatedType: $this->impersonated::class,
+            impersonatedId: $this->impersonated->getKey(),
+            impersonationKey: $key,
+            abilities: $this->abilities,
+            expiresAt: Carbon::now()->add(
+                $this->duration,
+                $this->for
+            )
+        );
     }
 }

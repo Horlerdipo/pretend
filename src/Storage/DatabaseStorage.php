@@ -8,7 +8,6 @@ use Horlerdipo\Pretend\Models\Impersonation;
 
 class DatabaseStorage implements HasImpersonationStorage
 {
-
     public function store(ImpersonationData $data): bool
     {
         Impersonation::query()->create([
@@ -21,6 +20,7 @@ class DatabaseStorage implements HasImpersonationStorage
             'expires_at' => $data->expiresAt,
             'abilities' => $data->abilities,
         ]);
+
         return true;
     }
 

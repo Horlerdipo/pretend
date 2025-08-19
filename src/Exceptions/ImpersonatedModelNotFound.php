@@ -2,6 +2,4 @@
 
 namespace Horlerdipo\Pretend\Exceptions;
 
-class ImpersonatedModelNotFound extends \Exception
-{
-}
+class ImpersonatedModelNotFound extends \Exception {}

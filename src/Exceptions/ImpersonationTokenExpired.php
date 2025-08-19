@@ -2,6 +2,4 @@
 
 namespace Horlerdipo\Pretend\Exceptions;
 
-class ImpersonationTokenExpired extends \Exception
-{
-}
+class ImpersonationTokenExpired extends \Exception {}

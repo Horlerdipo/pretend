@@ -2,7 +2,6 @@
 
 namespace Horlerdipo\Pretend\Data;
 
-use Carbon\CarbonInterface;
 use Carbon\Unit;
 
 readonly class CompleteImpersonationData

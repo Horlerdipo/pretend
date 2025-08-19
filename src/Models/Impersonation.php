@@ -2,6 +2,7 @@
 
 namespace Horlerdipo\Pretend\Models;
 
+use Carbon\Unit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
@@ -11,9 +12,12 @@ use Illuminate\Support\Carbon;
  * @property string $impersonated_type
  * @property string $impersonated_id
  * @property string $key
- * @property Carbon $expires_at
+ * @property int $expires_in
+ * @property Unit $duration
  * @property bool $used
  * @property string[] $abilities
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  */
 class Impersonation extends Model
 {
@@ -24,7 +28,8 @@ class Impersonation extends Model
         'impersonated_id',
         'key',
         'used',
-        'expires_at',
+        'expires_in',
+        'duration',
         'abilities',
     ];
 
@@ -34,6 +39,7 @@ class Impersonation extends Model
             'used' => 'boolean',
             'expires_at' => 'datetime',
             'abilities' => 'array',
+            'duration' => Unit::class,
         ];
     }
 }

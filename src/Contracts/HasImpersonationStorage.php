@@ -2,13 +2,14 @@
 
 namespace Horlerdipo\Pretend\Contracts;
 
-use Horlerdipo\Pretend\Data\ImpersonationData;
+use Horlerdipo\Pretend\Data\RetrieveImpersonationData;
+use Horlerdipo\Pretend\Data\StartImpersonationData;
 
 interface HasImpersonationStorage
 {
-    public function store(ImpersonationData $data): bool;
+    public function store(StartImpersonationData $data): bool;
 
-    public function retrieve(string $key): ?ImpersonationData;
+    public function retrieve(string $key): ?RetrieveImpersonationData;
 
     public function markAsUsed(string $key): bool;
 }

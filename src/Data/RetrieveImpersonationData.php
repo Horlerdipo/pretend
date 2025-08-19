@@ -3,8 +3,9 @@
 namespace Horlerdipo\Pretend\Data;
 
 use Carbon\CarbonInterface;
+use Carbon\Unit;
 
-readonly class ImpersonationData
+readonly class RetrieveImpersonationData
 {
     /**
      * @param  string[]  $abilities
@@ -14,8 +15,11 @@ readonly class ImpersonationData
         public mixed $impersonatorId,
         public string $impersonatedType,   // e.g. App\Models\User
         public mixed $impersonatedId,
-        public string $impersonationKey,
+        public string $impersonationToken,
         public array $abilities,
-        public CarbonInterface $expiresAt,
+        public int $expiresIn,
+        public Unit $duration,
+        public bool $used,
+        public ?CarbonInterface $createdAt,
     ) {}
 }

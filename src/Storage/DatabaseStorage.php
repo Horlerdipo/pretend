@@ -3,12 +3,13 @@
 namespace Horlerdipo\Pretend\Storage;
 
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
-use Horlerdipo\Pretend\Data\ImpersonationData;
+use Horlerdipo\Pretend\Data\RetrieveImpersonationData;
+use Horlerdipo\Pretend\Data\StartImpersonationData;
 use Horlerdipo\Pretend\Models\Impersonation;
 
 class DatabaseStorage implements HasImpersonationStorage
 {
-    public function store(ImpersonationData $data): bool
+    public function store(StartImpersonationData $data): bool
     {
         Impersonation::query()->create([
             'impersonator_type' => $data->impersonatedType,
@@ -17,28 +18,32 @@ class DatabaseStorage implements HasImpersonationStorage
             'impersonated_id' => $data->impersonatedId,
             'key' => $data->impersonatedId,
             'used' => false,
-            'expires_at' => $data->expiresAt,
+            'expires_in' => $data->expiresIn,
+            'duration' => $data->duration,
             'abilities' => $data->abilities,
         ]);
 
         return true;
     }
 
-    public function retrieve(string $key): ?ImpersonationData
+    public function retrieve(string $key): ?RetrieveImpersonationData
     {
         $impersonation = Impersonation::query()->where('key', $key)->first();
         if (is_null($impersonation)) {
             return null;
         }
 
-        return new ImpersonationData(
+        return new RetrieveImpersonationData(
             impersonatorType: $impersonation->impersonator_type,
             impersonatorId: $impersonation->impersonator_id,
             impersonatedType: $impersonation->impersonated_type,
             impersonatedId: $impersonation->impersonated_id,
-            impersonationKey: $impersonation->key,
+            impersonationToken: $impersonation->key,
             abilities: $impersonation->abilities,
-            expiresAt: $impersonation->expires_at
+            expiresIn: $impersonation->expires_in,
+            duration: $impersonation->duration,
+            used: $impersonation->used,
+            createdAt: $impersonation->created_at,
         );
     }
 

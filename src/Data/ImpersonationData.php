@@ -1,6 +1,6 @@
 <?php
 
-namespace Horlerdipo\Pretend\DTOs;
+namespace Horlerdipo\Pretend\Data;
 
 use Carbon\CarbonInterface;
 

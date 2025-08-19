@@ -4,7 +4,7 @@ namespace Horlerdipo\Pretend;
 
 use Carbon\Unit;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
-use Horlerdipo\Pretend\DTOs\ImpersonationData;
+use Horlerdipo\Pretend\Data\ImpersonationData;
 use Horlerdipo\Pretend\Exceptions\ModelMissingAuthenticatableInterface;
 use Horlerdipo\Pretend\Exceptions\ModelMissingHasTokenTrait;
 use Illuminate\Contracts\Auth\Authenticatable;

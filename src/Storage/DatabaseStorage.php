@@ -3,7 +3,7 @@
 namespace Horlerdipo\Pretend\Storage;
 
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
-use Horlerdipo\Pretend\DTOs\ImpersonationData;
+use Horlerdipo\Pretend\Data\ImpersonationData;
 use Horlerdipo\Pretend\Models\Impersonation;
 
 class DatabaseStorage implements HasImpersonationStorage

@@ -2,7 +2,7 @@
 
 namespace Horlerdipo\Pretend\Contracts;
 
-use Horlerdipo\Pretend\DTOs\ImpersonationData;
+use Horlerdipo\Pretend\Data\ImpersonationData;
 
 interface HasImpersonationStorage
 {

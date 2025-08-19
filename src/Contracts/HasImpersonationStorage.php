@@ -6,7 +6,6 @@ use Horlerdipo\Pretend\DTOs\ImpersonationData;
 
 interface HasImpersonationStorage
 {
-
     public function store(ImpersonationData $data): bool;
 
     public function retrieve(string $key): ?ImpersonationData;

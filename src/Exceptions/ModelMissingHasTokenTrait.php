@@ -2,7 +2,4 @@
 
 namespace Horlerdipo\Pretend\Exceptions;
 
-class ModelMissingHasTokenTrait extends \Exception
-{
-
-}
+class ModelMissingHasTokenTrait extends \Exception {}

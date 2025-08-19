@@ -5,7 +5,6 @@ namespace Horlerdipo\Pretend;
 use Carbon\Unit;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
 use Horlerdipo\Pretend\DTOs\ImpersonationData;
-use Horlerdipo\Pretend\Enums\Duration;
 use Horlerdipo\Pretend\Exceptions\ModelMissingAuthenticatableInterface;
 use Horlerdipo\Pretend\Exceptions\ModelMissingHasTokenTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -25,6 +24,7 @@ class Pretend
     // ->start();
 
     public Model $impersonator;
+
     public Model $impersonated;
 
     public int $for;
@@ -35,7 +35,6 @@ class Pretend
      * @var string[]
      */
     public array $abilities = ['*'];
-
 
     final public function __construct(Model $from)
     {
@@ -59,13 +58,14 @@ class Pretend
         }
 
         $reflectedClass = new ReflectionClass($model::class);
-        if(
-            !in_array( 'Laravel\Sanctum\HasApiTokens', $reflectedClass->getTraitNames())
-        ){
+        if (
+            ! in_array('Laravel\Sanctum\HasApiTokens', $reflectedClass->getTraitNames())
+        ) {
             throw new ModelMissingHasTokenTrait("$model::class missing the Laravel\\Sanctum\\HasApiTokens trait");
         }
 
         $this->impersonated = $model;
+
         return $this;
     }
 
@@ -73,49 +73,65 @@ class Pretend
     {
         $this->for = $time;
         $this->duration = $duration;
+
         return $this;
     }
 
-    public function seconds(): self {
+    public function seconds(): self
+    {
         $this->duration = Unit::Second;
+
         return $this;
     }
 
-    public function minutes(): self {
+    public function minutes(): self
+    {
         $this->duration = Unit::Minute;
+
         return $this;
     }
 
-    public function hours(): self {
+    public function hours(): self
+    {
         $this->duration = Unit::Hour;
+
         return $this;
     }
 
-    public function days(): self {
+    public function days(): self
+    {
         $this->duration = Unit::Day;
+
         return $this;
     }
 
-    public function months(): self {
+    public function months(): self
+    {
         $this->duration = Unit::Month;
+
         return $this;
     }
 
-    public function years(): self {
+    public function years(): self
+    {
         $this->duration = Unit::Year;
+
         return $this;
     }
 
     /**
-     * @param string[] $abilities
+     * @param  string[]  $abilities
      * @return $this
      */
-    public function withAbilities(array $abilities): self {
+    public function withAbilities(array $abilities): self
+    {
         $this->abilities = $abilities;
+
         return $this;
     }
 
-    public function start(): string {
+    public function start(): string
+    {
 
         $key = Str::random(config()->integer('pretend.impersonation_key_length'));
 

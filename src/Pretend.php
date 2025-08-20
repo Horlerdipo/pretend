@@ -37,7 +37,7 @@ class Pretend
 
     public int $for = 60;
 
-    public Unit $duration =Unit::Minute;
+    public Unit $duration = Unit::Minute;
 
     /**
      * @var string[]
@@ -141,7 +141,7 @@ class Pretend
     {
 
         if (empty($this->impersonated)) {
-            throw new ImpersonatedModelNotSet();
+            throw new ImpersonatedModelNotSet;
         }
 
         $token = Str::random(config()->integer('pretend.impersonation_token_length'));

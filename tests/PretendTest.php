@@ -24,23 +24,22 @@ beforeEach(function () {
     Event::fake();
 });
 
-
 it('can successfully add the impersonator model', function () {
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin);
 
-    //ASSERT:
+    // ASSERT:
     expect($object)->toBeInstanceOf(Pretend::class)
         ->and($object->impersonator)
         ->toBe($this->admin);
 });
 
 it('can successfully chain the impersonated model', function () {
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin)
         ->toBe($this->user);
 
-    //ASSERT:
+    // ASSERT:
     expect($object)->toBeInstanceOf(Pretend::class)
         ->and($object->impersonator)
         ->toBe($this->admin)
@@ -49,37 +48,37 @@ it('can successfully chain the impersonated model', function () {
 });
 
 it('throws an exception if the impersonated model does not implement Authenticatable', function () {
-    //ARRANGE:
+    // ARRANGE:
     $userWithoutHasAuthInterface = UserWithoutAuthInterface::query()->create([
         'email' => fake()->email,
         'name' => fake()->name,
     ]);
 
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin)
         ->toBe($userWithoutHasAuthInterface);
 
 })->throws(ModelMissingAuthenticatableInterface::class);
 
 it('throws an exception if the impersonated model does not implement HasToken', function () {
-    //ARRANGE:
+    // ARRANGE:
     $userWithoutHasToken = UserWithoutHasTokenInterface::query()->create([
         'email' => fake()->email,
         'name' => fake()->name,
     ]);
 
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin)
         ->toBe($userWithoutHasToken);
 
 })->throws(ModelMissingHasTokenTrait::class);
 
 it('can successfully add time without unit', function () {
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin)
         ->for(10);
 
-    //ASSERT:
+    // ASSERT:
     expect($object)->toBeInstanceOf(Pretend::class)
         ->and($object->duration->name)
         ->toEqual(Unit::Minute->name)
@@ -88,11 +87,11 @@ it('can successfully add time without unit', function () {
 });
 
 it('can successfully add time and unit', function () {
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin)
         ->for(10, Unit::Hour);
 
-    //ASSERT:
+    // ASSERT:
     expect($object)->toBeInstanceOf(Pretend::class)
         ->and($object->duration->name)
         ->toEqual(Unit::Hour->name)
@@ -101,12 +100,12 @@ it('can successfully add time and unit', function () {
 });
 
 it('can successfully set different duration units', function () {
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin)
-    ->for(10)
-    ->seconds();
+        ->for(10)
+        ->seconds();
 
-    //ASSERT:
+    // ASSERT:
     expect($object)->toBeInstanceOf(Pretend::class)
         ->and($object->duration->name)
         ->toEqual(Unit::Second->name);
@@ -143,21 +142,21 @@ it('can successfully set different duration units', function () {
 });
 
 it('can successfully add abilities', function () {
-    //ACT:
+    // ACT:
     $object = Pretend::from($this->admin)
         ->withAbilities(['testing']);
 
-    //ASSERT:
+    // ASSERT:
     expect($object)->toBeInstanceOf(Pretend::class)
         ->and($object->abilities)
         ->toEqual(['testing']);
 });
 
 it('can successfully start an impersonation and event is dispatched if the config is set', function () {
-    //ARRANGE:
+    // ARRANGE:
     config()->set('pretend.allow_events_dispatching', true);
 
-    //ACT:
+    // ACT:
     $impersonationToken = Pretend::from($this->admin)
         ->toBe($this->user)
         ->for(10)
@@ -165,7 +164,7 @@ it('can successfully start an impersonation and event is dispatched if the confi
         ->withAbilities(['testing'])
         ->start();
 
-    //ASSERT:
+    // ASSERT:
     expect($impersonationToken)->toBeString();
 
     $this->assertDatabaseHas('impersonations', [
@@ -184,10 +183,10 @@ it('can successfully start an impersonation and event is dispatched if the confi
 });
 
 it('can successfully start an impersonation and event is not dispatched if the config is set to false', function () {
-    //ARRANGE:
+    // ARRANGE:
     config()->set('pretend.allow_events_dispatching', false);
 
-    //ACT:
+    // ACT:
     $impersonationToken = Pretend::from($this->admin)
         ->toBe($this->user)
         ->for(10)
@@ -195,7 +194,7 @@ it('can successfully start an impersonation and event is not dispatched if the c
         ->withAbilities(['testing'])
         ->start();
 
-    //ASSERT:
+    // ASSERT:
     expect($impersonationToken)->toBeString();
 
     $this->assertDatabaseHas('impersonations', [

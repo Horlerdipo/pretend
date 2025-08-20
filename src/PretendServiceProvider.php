@@ -30,7 +30,7 @@ class PretendServiceProvider extends PackageServiceProvider
         $this->app->singleton(HasImpersonationStorage::class, function (Application $app) {
 
             $storage = app(config()->string('pretend.impersonation_storage'));
-            if (!$storage instanceof  HasImpersonationStorage){
+            if (! $storage instanceof HasImpersonationStorage) {
                 throw new BindingResolutionException('Impersonation storage is not configured.');
             }
 

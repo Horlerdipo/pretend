@@ -15,5 +15,5 @@ return [
     // @phpstan-ignore-next-line
     'auth_token_prefix' => env('PRETEND_AUTH_TOKEN_PREFIX', 'impersonation-token'),
 
-    'impersonation_storage' => \Horlerdipo\Pretend\Storage\DatabaseStorage::class
+    'impersonation_storage' => \Horlerdipo\Pretend\Storage\DatabaseStorage::class,
 ];

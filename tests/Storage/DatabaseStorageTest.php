@@ -1,6 +1,5 @@
 <?php
 
-
 use Horlerdipo\Pretend\Data\RetrieveImpersonationData;
 use Horlerdipo\Pretend\Data\StartImpersonationData;
 use Horlerdipo\Pretend\Models\Impersonation;
@@ -20,7 +19,7 @@ beforeEach(function () {
         duration: fake()->randomElement(\Carbon\Unit::cases())
     );
 
-    $this->databaseStorage = new DatabaseStorage();
+    $this->databaseStorage = new DatabaseStorage;
 
 });
 
@@ -42,10 +41,10 @@ it('can connect to database', function () {
 });
 
 it('can store impersonation data successfully', function () {
-    //ACT:
+    // ACT:
     $response = $this->databaseStorage->store($this->startImpersonationData);
 
-    //ASSERT:
+    // ASSERT:
     expect($response)->toBeTrue();
     $this->assertDatabaseHas('impersonations', [
         'impersonator_type' => $this->startImpersonationData->impersonatorType,
@@ -61,18 +60,18 @@ it('can store impersonation data successfully', function () {
 });
 
 it('returns null when trying to retrieve an unknown impersonation token', function () {
-    //ARRANGE:
+    // ARRANGE:
     $unknownKey = \Illuminate\Support\Str::random();
 
-    //ACT:
+    // ACT:
     $response = $this->databaseStorage->retrieve($unknownKey);
 
-    //ASSERT:
+    // ASSERT:
     expect($response)->toBeNull();
 });
 
 it('can successfully retrieve impersonation token data', function () {
-    //ARRANGE:
+    // ARRANGE:
     Impersonation::query()->create([
         'impersonator_type' => $this->startImpersonationData->impersonatorType,
         'impersonator_id' => $this->startImpersonationData->impersonatorId,
@@ -85,11 +84,11 @@ it('can successfully retrieve impersonation token data', function () {
         'abilities' => $this->startImpersonationData->abilities,
     ]);
 
-    //ACT:
+    // ACT:
     /** @var RetrieveImpersonationData $response */
     $response = $this->databaseStorage->retrieve($this->startImpersonationData->impersonationToken);
 
-    //ASSERT:
+    // ASSERT:
     expect($response)->toBeInstanceOf(RetrieveImpersonationData::class)
         ->and($response->impersonationToken)->toBe($this->startImpersonationData->impersonationToken)
         ->and($response->used)->toBeFalse()
@@ -103,18 +102,18 @@ it('can successfully retrieve impersonation token data', function () {
 });
 
 it('returns false when impersonation key cannot be marked as used', function () {
-    //ARRANGE:
+    // ARRANGE:
     $unknownKey = Str::random();
 
-    //ACT:
+    // ACT:
     $response = $this->databaseStorage->markAsUsed($unknownKey);
 
-    //ASSERT:
+    // ASSERT:
     expect($response)->toBeFalse();
 });
 
 it('can successfully mark an impersonation key as used and return false', function () {
-    //ARRANGE:
+    // ARRANGE:
     Impersonation::query()->create([
         'impersonator_type' => $this->startImpersonationData->impersonatorType,
         'impersonator_id' => $this->startImpersonationData->impersonatorId,
@@ -127,11 +126,11 @@ it('can successfully mark an impersonation key as used and return false', functi
         'abilities' => $this->startImpersonationData->abilities,
     ]);
 
-    //ACT:
+    // ACT:
     /** @var RetrieveImpersonationData $response */
     $response = $this->databaseStorage->markAsUsed($this->startImpersonationData->impersonationToken);
 
-    //ASSERT:
+    // ASSERT:
     expect($response)->toBeTrue();
 
     $this->assertDatabaseHas('impersonations', [

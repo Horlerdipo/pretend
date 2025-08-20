@@ -83,36 +83,42 @@ class Pretend
     public function seconds(): self
     {
         $this->duration = Unit::Second;
+
         return $this;
     }
 
     public function minutes(): self
     {
         $this->duration = Unit::Minute;
+
         return $this;
     }
 
     public function hours(): self
     {
         $this->duration = Unit::Hour;
+
         return $this;
     }
 
     public function days(): self
     {
         $this->duration = Unit::Day;
+
         return $this;
     }
 
     public function months(): self
     {
         $this->duration = Unit::Month;
+
         return $this;
     }
 
     public function years(): self
     {
         $this->duration = Unit::Year;
+
         return $this;
     }
 
@@ -123,6 +129,7 @@ class Pretend
     public function withAbilities(array $abilities): self
     {
         $this->abilities = $abilities;
+
         return $this;
     }
 

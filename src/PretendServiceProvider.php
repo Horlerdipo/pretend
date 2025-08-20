@@ -18,8 +18,7 @@ class PretendServiceProvider extends PackageServiceProvider
         $package
             ->name('pretend')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_pretend_table')
+            ->hasMigration('create_impersonations_table')
             ->hasCommand(PretendCommand::class);
     }
 }

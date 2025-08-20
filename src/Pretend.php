@@ -30,8 +30,6 @@ class Pretend
     // ->withAbilities(['*'])
     // ->start();
 
-    const string HAS_API_TOKEN_CLASS = HasApiTokens::class;
-
     public Model $impersonator;
 
     public Model $impersonated;
@@ -85,42 +83,36 @@ class Pretend
     public function seconds(): self
     {
         $this->duration = Unit::Second;
-
         return $this;
     }
 
     public function minutes(): self
     {
         $this->duration = Unit::Minute;
-
         return $this;
     }
 
     public function hours(): self
     {
         $this->duration = Unit::Hour;
-
         return $this;
     }
 
     public function days(): self
     {
         $this->duration = Unit::Day;
-
         return $this;
     }
 
     public function months(): self
     {
         $this->duration = Unit::Month;
-
         return $this;
     }
 
     public function years(): self
     {
         $this->duration = Unit::Year;
-
         return $this;
     }
 
@@ -131,7 +123,6 @@ class Pretend
     public function withAbilities(array $abilities): self
     {
         $this->abilities = $abilities;
-
         return $this;
     }
 
@@ -204,7 +195,9 @@ class Pretend
             now()->add($impersonationEntry->duration, $impersonationEntry->expiresIn)
         );
 
-        ImpersonationCompletedEvent::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $impersonationEntry, $token);
+        $storageImplementation->markAsUsed($token);
+
+        ImpersonationCompletedEvent::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $impersonationEntry, $newAccessToken);
 
         return $newAccessToken;
     }

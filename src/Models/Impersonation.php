@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
  * @property string $impersonator_id
  * @property string $impersonated_type
  * @property string $impersonated_id
- * @property string $key
+ * @property string $token
  * @property int $expires_in
  * @property Unit $duration
  * @property bool $used
@@ -26,7 +26,7 @@ class Impersonation extends Model
         'impersonator_id',
         'impersonated_type',
         'impersonated_id',
-        'key',
+        'token',
         'used',
         'expires_in',
         'duration',
@@ -40,6 +40,7 @@ class Impersonation extends Model
             'expires_at' => 'datetime',
             'abilities' => 'array',
             'duration' => Unit::class,
+            'expires_in' => 'integer',
         ];
     }
 }

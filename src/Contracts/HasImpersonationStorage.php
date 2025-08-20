@@ -9,7 +9,7 @@ interface HasImpersonationStorage
 {
     public function store(StartImpersonationData $data): bool;
 
-    public function retrieve(string $key): ?RetrieveImpersonationData;
+    public function retrieve(string $token): ?RetrieveImpersonationData;
 
     public function markAsUsed(string $key): bool;
 }

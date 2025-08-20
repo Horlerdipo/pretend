@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\Contracts\HasApiTokens;
 use Laravel\Sanctum\HasApiTokens as HasApiTokensTrait;
 
-class User extends Model implements Authenticatable, HasApiTokens {
+class UserWithoutHasTokenInterface extends Model implements Authenticatable{
 
-    use \Illuminate\Auth\Authenticatable, HasApiTokensTrait;
+    use \Illuminate\Auth\Authenticatable;
+
+    protected $table = 'users';
 
     protected $guarded = [];
 }

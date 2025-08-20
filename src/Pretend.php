@@ -8,6 +8,7 @@ use Horlerdipo\Pretend\Data\StartImpersonationData;
 use Horlerdipo\Pretend\Events\ImpersonationCompletedEvent;
 use Horlerdipo\Pretend\Events\ImpersonationStartedEvent;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;
+use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotSet;
 use Horlerdipo\Pretend\Exceptions\ImpersonationTokenExpired;
 use Horlerdipo\Pretend\Exceptions\ImpersonationTokenUsed;
 use Horlerdipo\Pretend\Exceptions\ModelMissingAuthenticatableInterface;
@@ -34,9 +35,9 @@ class Pretend
 
     public Model $impersonated;
 
-    public int $for;
+    public int $for = 60;
 
-    public Unit $duration;
+    public Unit $duration =Unit::Minute;
 
     /**
      * @var string[]
@@ -133,8 +134,15 @@ class Pretend
         return $this;
     }
 
+    /**
+     * @throws ImpersonatedModelNotSet
+     */
     public function start(): string
     {
+
+        if (empty($this->impersonated)) {
+            throw new ImpersonatedModelNotSet();
+        }
 
         $token = Str::random(config()->integer('pretend.impersonation_token_length'));
 

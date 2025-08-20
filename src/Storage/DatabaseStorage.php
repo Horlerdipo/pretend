@@ -16,7 +16,6 @@ class DatabaseStorage implements HasImpersonationStorage
             'impersonator_id' => $data->impersonatorId,
             'impersonated_type' => $data->impersonatedType,
             'impersonated_id' => $data->impersonatedId,
-            'key' => $data->impersonatedId,
             'used' => false,
             'expires_in' => $data->expiresIn,
             'duration' => $data->duration,

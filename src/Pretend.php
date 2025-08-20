@@ -5,6 +5,7 @@ namespace Horlerdipo\Pretend;
 use Carbon\Unit;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
 use Horlerdipo\Pretend\Data\StartImpersonationData;
+use Horlerdipo\Pretend\Events\ImpersonationCompletedEvent;
 use Horlerdipo\Pretend\Events\ImpersonationStartedEvent;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;
 use Horlerdipo\Pretend\Exceptions\ImpersonationTokenExpired;
@@ -200,11 +201,15 @@ class Pretend
         /**
          * @phpstan-ignore-next-line
          */
-        return $user->createToken(
+        $newAccessToken = $user->createToken(
             config()->string('pretend.auth_token_prefix'),
             $impersonationEntry->abilities,
             now()->add($impersonationEntry->duration, $impersonationEntry->expiresIn)
         );
+
+        ImpersonationCompletedEvent::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $impersonationEntry, $token);
+
+        return $newAccessToken;
     }
 
     protected function buildDto(string $key): StartImpersonationData

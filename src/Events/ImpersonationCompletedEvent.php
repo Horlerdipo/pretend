@@ -10,7 +10,5 @@ class ImpersonationCompletedEvent
 {
     use Dispatchable;
 
-    public function __construct(public RetrieveImpersonationData $impersonationData, public NewAccessToken $accessToken)
-    {
-    }
+    public function __construct(public RetrieveImpersonationData $impersonationData, public NewAccessToken $accessToken) {}
 }

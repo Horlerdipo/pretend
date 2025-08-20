@@ -19,7 +19,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Contracts\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
-use ReflectionClass;
 use ReflectionException;
 
 class Pretend
@@ -32,6 +31,7 @@ class Pretend
     // ->start();
 
     const string HAS_API_TOKEN_CLASS = HasApiTokens::class;
+
     public Model $impersonator;
 
     public Model $impersonated;
@@ -61,13 +61,12 @@ class Pretend
      */
     public function toBe(Model $model): self
     {
-        if (!$model instanceof Authenticatable) {
+        if (! $model instanceof Authenticatable) {
             throw new ModelMissingAuthenticatableInterface("$model::class is missing the Authenticatable interface");
         }
 
-        if(!$model instanceof HasApiTokens) {
+        if (! $model instanceof HasApiTokens) {
             throw new ModelMissingHasTokenTrait("$model::class missing the Laravel\\Sanctum\\HasApiTokens trait");
-
         }
 
         $this->impersonated = $model;
@@ -126,7 +125,7 @@ class Pretend
     }
 
     /**
-     * @param string[] $abilities
+     * @param  string[]  $abilities
      * @return $this
      */
     public function withAbilities(array $abilities): self
@@ -146,12 +145,11 @@ class Pretend
         $storageImplementation->store($dto = $this->buildDto($token));
 
         ImpersonationStartedEvent::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $dto);
+
         return $token;
     }
 
     /**
-     * @param string $token
-     * @return NewAccessToken
      * @throws ImpersonatedModelNotFound
      * @throws ImpersonationTokenExpired
      * @throws ImpersonationTokenUsed
@@ -183,11 +181,10 @@ class Pretend
             throw new ImpersonationTokenExpired("Impersonation token $token has expired");
         }
 
-
         /** @var Model $userClass */
         $userClass = ($impersonationEntry->impersonatedType);
 
-        if(!$userClass instanceof HasApiTokens) {
+        if (! $userClass instanceof HasApiTokens) {
             throw new ModelMissingHasTokenTrait("$userClass is missing the Laravel\\Sanctum\\HasApiTokens trait");
         }
 
@@ -195,7 +192,7 @@ class Pretend
             ->find($impersonationEntry->impersonatedId);
 
         if (is_null($user)) {
-            throw new ImpersonatedModelNotFound("Impersonated Model does not exist");
+            throw new ImpersonatedModelNotFound('Impersonated Model does not exist');
         }
 
         /**

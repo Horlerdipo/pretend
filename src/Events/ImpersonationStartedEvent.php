@@ -9,7 +9,5 @@ class ImpersonationStartedEvent
 {
     use Dispatchable;
 
-    public function __construct(public StartImpersonationData $impersonationData)
-    {
-    }
+    public function __construct(public StartImpersonationData $impersonationData) {}
 }

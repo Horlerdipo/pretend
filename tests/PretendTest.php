@@ -1,14 +1,21 @@
 <?php
 
 use Carbon\Unit;
+use Horlerdipo\Pretend\Events\ImpersonationCompletedEvent;
 use Horlerdipo\Pretend\Events\ImpersonationStartedEvent;
+use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;
+use Horlerdipo\Pretend\Exceptions\ImpersonationTokenExpired;
+use Horlerdipo\Pretend\Exceptions\ImpersonationTokenUsed;
 use Horlerdipo\Pretend\Exceptions\ModelMissingAuthenticatableInterface;
 use Horlerdipo\Pretend\Exceptions\ModelMissingHasTokenTrait;
+use Horlerdipo\Pretend\Exceptions\UnknownImpersonationToken;
+use Horlerdipo\Pretend\Models\Impersonation;
 use Horlerdipo\Pretend\Pretend;
 use Horlerdipo\Pretend\Tests\TestSupport\Models\Admin;
 use Horlerdipo\Pretend\Tests\TestSupport\Models\User;
 use Horlerdipo\Pretend\Tests\TestSupport\Models\UserWithoutAuthInterface;
 use Horlerdipo\Pretend\Tests\TestSupport\Models\UserWithoutHasTokenInterface;
+use Laravel\Sanctum\NewAccessToken;
 
 beforeEach(function () {
     $this->user = User::query()->create([
@@ -210,4 +217,156 @@ it('can successfully start an impersonation and event is not dispatched if the c
     ]);
 
     \Illuminate\Support\Facades\Event::assertNotDispatched(ImpersonationStartedEvent::class);
+});
+
+it('can successfully complete impersonation and dispatch event if the config is set', function () {
+    // ARRANGE:
+    config()->set('pretend.impersonation_token_ttl', 10);
+    $impersonationToken = Str::random(32);
+
+    Impersonation::query()->create([
+        'impersonator_type' => Admin::class,
+        'impersonator_id' => strval($this->admin->id),
+        'impersonated_type' => User::class,
+        'impersonated_id' => strval($this->user->id),
+        'token' => $impersonationToken,
+        'used' => 0,
+        'expires_in' => 10,
+        'duration' => Unit::Minute,
+        'abilities' => ['testing'],
+    ]);
+
+    // ACT:
+    $accessToken = Pretend::complete($impersonationToken);
+
+    // ASSERT:
+    expect($accessToken)->toBeInstanceOf(NewAccessToken::class);
+    Event::assertDispatched(ImpersonationCompletedEvent::class);
+
+    $this->assertDatabaseHas('impersonations', [
+        'impersonator_type' => Admin::class,
+        'impersonator_id' => $this->admin->id,
+        'impersonated_type' => User::class,
+        'impersonated_id' => $this->user->id,
+        'token' => $impersonationToken,
+        'used' => 1,
+        'expires_in' => 10,
+        'duration' => Unit::Minute,
+        'abilities' => json_encode(['testing']),
+    ]);
+});
+
+describe('Pretend::complete', function () {
+
+    it('throws an exception if the impersonation token is not found', function () {
+        // ARRANGE:
+        $impersonationToken = Str::random(32);
+
+        // ACT:
+        $accessToken = Pretend::complete($impersonationToken);
+
+    })->throws(UnknownImpersonationToken::class);
+
+    it('throws an exception if the impersonation token has been used', function () {
+        // ARRANGE:
+        $impersonationToken = Str::random(32);
+        Impersonation::query()->create([
+            'impersonator_type' => Admin::class,
+            'impersonator_id' => strval($this->admin->id),
+            'impersonated_type' => User::class,
+            'impersonated_id' => strval($this->user->id),
+            'token' => $impersonationToken,
+            'used' => true,
+            'expires_in' => 10,
+            'duration' => Unit::Minute,
+            'abilities' => ['testing'],
+        ]);
+
+        // ACT:
+        $accessToken = Pretend::complete($impersonationToken);
+
+    })->throws(ImpersonationTokenUsed::class);
+
+    it('throws an exception if the impersonation token has expired', function () {
+        // ARRANGE:
+        config()->set('pretend.impersonation_token_ttl', 10);
+        \Pest\Laravel\travelTo(now()->startOfDay());
+
+        $impersonationToken = Str::random(32);
+        Impersonation::query()->create([
+            'impersonator_type' => Admin::class,
+            'impersonator_id' => strval($this->admin->id),
+            'impersonated_type' => User::class,
+            'impersonated_id' => strval($this->user->id),
+            'token' => $impersonationToken,
+            'used' => false,
+            'expires_in' => 10,
+            'duration' => Unit::Minute,
+            'abilities' => ['testing'],
+        ]);
+        \Pest\Laravel\travelBack();
+
+        // ACT:
+        $accessToken = Pretend::complete($impersonationToken);
+
+    })->throws(ImpersonationTokenExpired::class);
+
+    it('throws an exception if the impersonated model no longer exists', function () {
+        // ARRANGE:
+        $impersonationToken = Str::random(32);
+        Impersonation::query()->create([
+            'impersonator_type' => Admin::class,
+            'impersonator_id' => strval($this->admin->id),
+            'impersonated_type' => User::class,
+            'impersonated_id' => strval($this->user->id),
+            'token' => $impersonationToken,
+            'used' => false,
+            'expires_in' => 10,
+            'duration' => Unit::Minute,
+            'abilities' => ['testing'],
+        ]);
+        $this->user->delete();
+
+        // ACT:
+        $accessToken = Pretend::complete($impersonationToken);
+
+    })->throws(ImpersonatedModelNotFound::class);
+
+    it('can successfully complete impersonation and will not dispatch event if the config is set to falsse', function () {
+        // ARRANGE:
+        config()->set('pretend.impersonation_token_ttl', 10);
+        config()->set('pretend.allow_events_dispatching', false);
+        $impersonationToken = Str::random(32);
+
+        Impersonation::query()->create([
+            'impersonator_type' => Admin::class,
+            'impersonator_id' => strval($this->admin->id),
+            'impersonated_type' => User::class,
+            'impersonated_id' => strval($this->user->id),
+            'token' => $impersonationToken,
+            'used' => 0,
+            'expires_in' => 10,
+            'duration' => Unit::Minute,
+            'abilities' => ['testing'],
+        ]);
+
+        // ACT:
+        $accessToken = Pretend::complete($impersonationToken);
+
+        // ASSERT:
+        expect($accessToken)->toBeInstanceOf(NewAccessToken::class);
+        Event::assertNotDispatched(ImpersonationCompletedEvent::class);
+
+        $this->assertDatabaseHas('impersonations', [
+            'impersonator_type' => Admin::class,
+            'impersonator_id' => $this->admin->id,
+            'impersonated_type' => User::class,
+            'impersonated_id' => $this->user->id,
+            'token' => $impersonationToken,
+            'used' => 1,
+            'expires_in' => 10,
+            'duration' => Unit::Minute,
+            'abilities' => json_encode(['testing']),
+        ]);
+    });
 });

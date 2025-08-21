@@ -20,17 +20,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Contracts\HasApiTokens;
 use Laravel\Sanctum\NewAccessToken;
-use ReflectionException;
 
 class Pretend
 {
-    // Pretend::from($admin)
-    // ->toBe($user)
-    // ->for('10 minutes')
-    // ->minutes()
-    // ->withAbilities(['*'])
-    // ->start();
-
     public Model $impersonator;
 
     public Model $impersonated;
@@ -160,10 +152,9 @@ class Pretend
      * @throws ImpersonationTokenExpired
      * @throws ImpersonationTokenUsed
      * @throws ModelMissingHasTokenTrait
-     * @throws ReflectionException
      * @throws UnknownImpersonationToken
      */
-    public function complete(string $token): NewAccessToken
+    public static function complete(string $token): NewAccessToken
     {
         /** @var HasImpersonationStorage $storageImplementation */
         $storageImplementation = app(HasImpersonationStorage::class);
@@ -190,20 +181,18 @@ class Pretend
         /** @var Model $userClass */
         $userClass = ($impersonationEntry->impersonatedType);
 
-        if (! $userClass instanceof HasApiTokens) {
-            throw new ModelMissingHasTokenTrait("$userClass is missing the Laravel\\Sanctum\\HasApiTokens trait");
-        }
-
         $user = $userClass::query()
             ->find($impersonationEntry->impersonatedId);
 
         if (is_null($user)) {
-            throw new ImpersonatedModelNotFound('Impersonated Model does not exist');
+            throw new ImpersonatedModelNotFound(
+                'Impersonated Model does not exist');
         }
 
-        /**
-         * @phpstan-ignore-next-line
-         */
+        if (! $user instanceof HasApiTokens) {
+            throw new ModelMissingHasTokenTrait("$userClass is missing the Laravel\\Sanctum\\Contracts\\HasApiTokens interface");
+        }
+
         $newAccessToken = $user->createToken(
             config()->string('pretend.auth_token_prefix'),
             $impersonationEntry->abilities,

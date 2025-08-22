@@ -14,13 +14,13 @@ beforeEach(closure: function () {
         uri: 'testing',
         parameters: [
             'action' => 'testing',
-            'project' => 'pretend'
+            'project' => 'pretend',
         ]
     );
 
     $this->content = json_encode([
         'action' => 'testing',
-        'project' => 'pretend'
+        'project' => 'pretend',
     ]);
 
     $this->next = function () {
@@ -30,17 +30,17 @@ beforeEach(closure: function () {
     Event::fake();
 });
 
-it('does not capture unauthenticated requests', closure: function() {
-    //ACT:
+it('does not capture unauthenticated requests', closure: function () {
+    // ACT:
     /** @var \Illuminate\Http\Response $response */
-    $response = (new CaptureImpersonatedRequests())
+    $response = (new CaptureImpersonatedRequests)
         ->handle(
             request: $this->request,
             next: $this->next
         );
 
-    (new CaptureImpersonatedRequests())->terminate($this->request, $response);
-    //ASSERT:
+    (new CaptureImpersonatedRequests)->terminate($this->request, $response);
+    // ASSERT:
     expect($response->getStatusCode())->toBe(200)
         ->and($response->getContent())
         ->toBe($this->content);
@@ -49,9 +49,9 @@ it('does not capture unauthenticated requests', closure: function() {
 });
 
 it('only capture requests with impersonated users', function () {
-    //ARRANGE:
+    // ARRANGE:
     $newAccessToken = $this->user->createToken(
-        config()->string('pretend.auth_token_prefix'). '-TESTING',
+        config()->string('pretend.auth_token_prefix').'-TESTING',
         ['*'],
         now()->addMinutes(30)
     );
@@ -60,15 +60,15 @@ it('only capture requests with impersonated users', function () {
     $this->request->setUserResolver(fn () => $this->user);
     $this->user->withAccessToken($newAccessToken->accessToken);
 
-    //ACT:
-    $response = (new CaptureImpersonatedRequests())
+    // ACT:
+    $response = (new CaptureImpersonatedRequests)
         ->handle(
             request: $this->request,
             next: $this->next
         );
-    (new CaptureImpersonatedRequests())->terminate($this->request, $response);
+    (new CaptureImpersonatedRequests)->terminate($this->request, $response);
 
-    //ASSERT:
+    // ASSERT:
     expect($response->getStatusCode())->toBe(200)
         ->and($response->getContent())
         ->toBe($this->content);
@@ -89,15 +89,15 @@ it('only capture requests when the config is set', function () {
     $this->request->setUserResolver(fn () => $this->user);
     $this->user->withAccessToken($newAccessToken->accessToken);
 
-    //ACT:
-    $response = (new CaptureImpersonatedRequests())
+    // ACT:
+    $response = (new CaptureImpersonatedRequests)
         ->handle(
             request: $this->request,
             next: $this->next
         );
-    (new CaptureImpersonatedRequests())->terminate($this->request, $response);
+    (new CaptureImpersonatedRequests)->terminate($this->request, $response);
 
-    //ASSERT:
+    // ASSERT:
     expect($response->getStatusCode())->toBe(200)
         ->and($response->getContent())
         ->toBe($this->content);
@@ -118,15 +118,15 @@ it('successfully dispatches the event when the request is from an impersonated u
     $this->request->setUserResolver(fn () => $this->user);
     $this->user->withAccessToken($newAccessToken->accessToken);
 
-    //ACT:
-    $response = (new CaptureImpersonatedRequests())
+    // ACT:
+    $response = (new CaptureImpersonatedRequests)
         ->handle(
             request: $this->request,
             next: $this->next
         );
-    (new CaptureImpersonatedRequests())->terminate($this->request, $response);
+    (new CaptureImpersonatedRequests)->terminate($this->request, $response);
 
-    //ASSERT:
+    // ASSERT:
     expect($response->getStatusCode())->toBe(200)
         ->and($response->getContent())
         ->toBe($this->content);

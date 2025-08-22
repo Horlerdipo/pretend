@@ -16,4 +16,6 @@ return [
     'auth_token_prefix' => env('PRETEND_AUTH_TOKEN_PREFIX', 'impersonation-token'),
 
     'impersonation_storage' => \Horlerdipo\Pretend\Storage\DatabaseStorage::class,
+
+    'unauthorized_action_message' => 'Impersonated accounts cannot access this route.',
 ];

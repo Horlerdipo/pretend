@@ -29,7 +29,6 @@ beforeEach(closure: function () {
 
 it('prevent unauthenticated requests from going through', closure: function () {
     // ACT:
-    /** @var \Illuminate\Http\Response $response */
     $response = (new PreventImpersonatedUserRequests)
         ->handle(
             request: $this->request,

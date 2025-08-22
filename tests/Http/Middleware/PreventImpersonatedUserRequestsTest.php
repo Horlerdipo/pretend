@@ -30,7 +30,7 @@ beforeEach(closure: function () {
 it('prevent unauthenticated requests from going through', closure: function () {
     // ACT:
     /** @var \Illuminate\Http\Response $response */
-    $response = (new PreventImpersonatedUserRequests())
+    $response = (new PreventImpersonatedUserRequests)
         ->handle(
             request: $this->request,
             next: $this->next
@@ -55,7 +55,7 @@ it('prevent impersonated users requests from going through', function () {
     $this->user->withAccessToken($newAccessToken->accessToken);
 
     // ACT:
-    $response = (new PreventImpersonatedUserRequests())
+    $response = (new PreventImpersonatedUserRequests)
         ->handle(
             request: $this->request,
             next: $this->next
@@ -69,7 +69,7 @@ it('prevent impersonated users requests from going through', function () {
 
 it('allows normal requests to go through', function () {
     $newAccessToken = $this->user->createToken(
-        config()->string('pretend.auth_token_prefix'). '-TESTING',
+        config()->string('pretend.auth_token_prefix').'-TESTING',
         ['*'],
         now()->addMinutes(30)
     );
@@ -79,7 +79,7 @@ it('allows normal requests to go through', function () {
     $this->user->withAccessToken($newAccessToken->accessToken);
 
     // ACT:
-    $response = (new PreventImpersonatedUserRequests())
+    $response = (new PreventImpersonatedUserRequests)
         ->handle(
             request: $this->request,
             next: $this->next

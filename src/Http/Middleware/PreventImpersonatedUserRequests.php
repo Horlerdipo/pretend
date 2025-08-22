@@ -3,7 +3,6 @@
 namespace Horlerdipo\Pretend\Http\Middleware;
 
 use Closure;
-use Horlerdipo\Pretend\Events\ImpersonatedRequestProcessedEvent;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\Contracts\HasApiTokens;
@@ -15,7 +14,7 @@ class PreventImpersonatedUserRequests
         /** @var ?HasApiTokens $user */
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return new Response('Unauthorized', 401);
         }
 

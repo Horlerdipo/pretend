@@ -45,14 +45,14 @@ As long as your class implements `HasImpersonationStorage`, Pretend will use it 
 Pretend emits several events during the impersonation lifecycle.
 You can listen to them for logging, auditing, or triggering other side effects. This event emission can be disabled on the configuration file (`config/pretend.php`)
 
-* `\Horlerdipo\Pretend\Events\ImpersonationStartedEvent`
+* `\Horlerdipo\Pretend\Events\ImpersonationStarted`
 
     This is fired when an impersonation session is initiated (`start()`).
 
-* `\Horlerdipo\Pretend\Events\ImpersonationCompletedEvent`
+* `\Horlerdipo\Pretend\Events\ImpersonationCompleted`
 
     This is fired when an impersonation token is successfully completed into a Sanctum access token (`complete()`).
 
-* `\Horlerdipo\Pretend\Events\ImpersonatedRequestProcessedEvent`
+* `\Horlerdipo\Pretend\Events\ImpersonatedRequestProcessed`
 
     This is fired when a request made by an impersonated user is captured by the `\Horlerdipo\Pretend\Http\Middleware\CaptureImpersonatedRequests` middleware.

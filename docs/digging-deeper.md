@@ -34,9 +34,12 @@ $middleware->append([
 Pretend stores impersonation tokens via a storage contract: **`HasImpersonationStorage`**.
 By default, a DatabaseStorage implementation is provided.
 
-You can swap this out for any custom implementation (e.g., Redis, cache, or even an external service):
+You can swap this out for any custom implementation (e.g., Redis, cache, or even an external service) by simply changing the `pretend.impersonation_storage` from ```Horlerdipo\Pretend\Storage\DatabaseStorage``` to your custom implementation class-string:
 ```php
-$this->app->singleton(\Horlerdipo\Pretend\Contracts\HasImpersonationStorage::class, MyCustomRedisImpersonationStorage::class)
+    return [
+        //...,
+        'impersonation_storage' => MyCustomRedisImpersonationStorage::class,
+    ]
 ```
 As long as your class implements `HasImpersonationStorage`, Pretend will use it seamlessly.
 

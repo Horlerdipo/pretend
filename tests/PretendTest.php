@@ -1,6 +1,6 @@
 <?php
 
-use Carbon\Unit;
+use Horlerdipo\Pretend\Enums\Unit;
 use Horlerdipo\Pretend\Events\ImpersonationCompleted;
 use Horlerdipo\Pretend\Events\ImpersonationStarted;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;

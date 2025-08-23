@@ -16,6 +16,10 @@ Pretend is a Laravel package for user impersonation, built on top of Laravel San
 
 ⚡ Flexible storage – swap out the default database storage for your own implementation.
 
+## Requirements 
+* PHP 8.3+
+* Laravel 11.x or higher
+
 ## Docs
 
 Find the complete documentation [here](https://pretend-horlerdipo.netlify.app/#/)

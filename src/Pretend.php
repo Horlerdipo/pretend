@@ -2,9 +2,9 @@
 
 namespace Horlerdipo\Pretend;
 
-use Carbon\Unit;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
 use Horlerdipo\Pretend\Data\StartImpersonationData;
+use Horlerdipo\Pretend\Enums\Unit;
 use Horlerdipo\Pretend\Events\ImpersonationCompleted;
 use Horlerdipo\Pretend\Events\ImpersonationStarted;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;
@@ -196,7 +196,7 @@ class Pretend
         $newAccessToken = $user->createToken(
             config()->string('pretend.auth_token_prefix'),
             $impersonationEntry->abilities,
-            now()->add($impersonationEntry->duration, $impersonationEntry->expiresIn)
+            now()->add($impersonationEntry->duration->value, $impersonationEntry->expiresIn)
         );
 
         $storageImplementation->markAsUsed($token);

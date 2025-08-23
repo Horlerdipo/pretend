@@ -1,8 +1,8 @@
 # Pretend
-[![Latest Version on Packagist](https://img.shields.io/packagist/v//pretend.svg?style=flat-square)](https://packagist.org/packages//pretend)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status//pretend/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com//pretend/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status//pretend/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com//pretend/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt//pretend.svg?style=flat-square)](https://packagist.org/packages//pretend)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v//pretend.svg?style=flat-square)](https://packagist.org/packages/horlerdipo/pretend)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/horlerdipo/pretend/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/horlerdipo/pretend/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/horlerdipo/pretend/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/horlerdipo/pretend/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/horlerdipo/pretend.svg?style=flat-square)](https://packagist.org/packages/horlerdipo/pretend)
 
 Pretend is a Laravel package for user impersonation, built on top of Laravel Sanctum, designed to help admins step into the shoes of their users. With Pretend, you can securely impersonate a user, browse your app exactly as they see it, and debug issues or provide support without needing their credentials.
 

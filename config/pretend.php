@@ -17,5 +17,6 @@ return [
 
     'impersonation_storage' => \Horlerdipo\Pretend\Storage\DatabaseStorage::class,
 
-    'unauthorized_action_message' => 'Impersonated accounts cannot access this route.',
+    // @phpstan-ignore-next-line
+    'unauthorized_action_message' => env('PRETEND_UNAUTHORIZED_ACTION_MESSAGE', 'Impersonated accounts cannot access this route.'),
 ];

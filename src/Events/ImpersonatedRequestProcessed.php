@@ -4,7 +4,7 @@ namespace Horlerdipo\Pretend\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Laravel\Sanctum\Contracts\HasAbilities;
 
 class ImpersonatedRequestProcessed

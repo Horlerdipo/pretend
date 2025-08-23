@@ -5,7 +5,7 @@ namespace Horlerdipo\Pretend\Http\Middleware;
 use Closure;
 use Horlerdipo\Pretend\Events\ImpersonatedRequestProcessed;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Laravel\Sanctum\Contracts\HasApiTokens;
 
 class CaptureImpersonatedRequests

@@ -1,69 +1,28 @@
-# :package_description
+# Pretend
+[![Latest Version on Packagist](https://img.shields.io/packagist/v//pretend.svg?style=flat-square)](https://packagist.org/packages/horlerdipo/pretend)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/horlerdipo/pretend/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/horlerdipo/pretend/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/horlerdipo/pretend/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/horlerdipo/pretend/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/horlerdipo/pretend.svg?style=flat-square)](https://packagist.org/packages/horlerdipo/pretend)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
+Pretend is a Laravel package for user impersonation, built on top of Laravel Sanctum, designed to help admins step into the shoes of their users. With Pretend, you can securely impersonate a user, browse your app exactly as they see it, and debug issues or provide support without needing their credentials.
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+## Why Pretend?
 
-## Support us
+🔑 Sanctum-powered – integrates seamlessly with Laravel Sanctum’s personal access tokens.
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
+🎭 True impersonation – experience the application from the user’s perspective.
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+🛡️ Secure by design – tokens, events, and middleware to keep impersonation safe and auditable.
 
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+⚡ Flexible storage – swap out the default database storage for your own implementation.
 
-## Installation
+## Requirements 
+* PHP 8.3+
+* Laravel 11.x or higher
 
-You can install the package via composer:
+## Docs
 
-```bash
-composer require :vendor_slug/:package_slug
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
-```
-
-## Usage
-
-```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
-```
+Find the complete documentation [here](https://pretend-horlerdipo.netlify.app/#/)
 
 ## Testing
 
@@ -85,7 +44,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Umar Oladipo](https://github.com/Horlerdipo)
 - [All Contributors](../../contributors)
 
 ## License

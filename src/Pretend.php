@@ -2,9 +2,9 @@
 
 namespace Horlerdipo\Pretend;
 
-use Horlerdipo\Pretend\Enums\Unit;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
 use Horlerdipo\Pretend\Data\StartImpersonationData;
+use Horlerdipo\Pretend\Enums\Unit;
 use Horlerdipo\Pretend\Events\ImpersonationCompleted;
 use Horlerdipo\Pretend\Events\ImpersonationStarted;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;

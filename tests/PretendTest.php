@@ -1,8 +1,8 @@
 <?php
 
 use Carbon\Unit;
-use Horlerdipo\Pretend\Events\ImpersonationCompletedEvent;
-use Horlerdipo\Pretend\Events\ImpersonationStartedEvent;
+use Horlerdipo\Pretend\Events\ImpersonationCompleted;
+use Horlerdipo\Pretend\Events\ImpersonationStarted;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;
 use Horlerdipo\Pretend\Exceptions\ImpersonationTokenExpired;
 use Horlerdipo\Pretend\Exceptions\ImpersonationTokenUsed;
@@ -186,7 +186,7 @@ it('can successfully start an impersonation and event is dispatched if the confi
         'abilities' => json_encode(['testing']),
     ]);
 
-    \Illuminate\Support\Facades\Event::assertDispatched(ImpersonationStartedEvent::class);
+    \Illuminate\Support\Facades\Event::assertDispatched(ImpersonationStarted::class);
 });
 
 it('can successfully start an impersonation and event is not dispatched if the config is set to false', function () {
@@ -216,7 +216,7 @@ it('can successfully start an impersonation and event is not dispatched if the c
         'abilities' => json_encode(['testing']),
     ]);
 
-    \Illuminate\Support\Facades\Event::assertNotDispatched(ImpersonationStartedEvent::class);
+    \Illuminate\Support\Facades\Event::assertNotDispatched(ImpersonationStarted::class);
 });
 
 it('can successfully complete impersonation and dispatch event if the config is set', function () {
@@ -241,7 +241,7 @@ it('can successfully complete impersonation and dispatch event if the config is 
 
     // ASSERT:
     expect($accessToken)->toBeInstanceOf(NewAccessToken::class);
-    Event::assertDispatched(ImpersonationCompletedEvent::class);
+    Event::assertDispatched(ImpersonationCompleted::class);
 
     $this->assertDatabaseHas('impersonations', [
         'impersonator_type' => Admin::class,
@@ -355,7 +355,7 @@ describe('Pretend::complete', function () {
 
         // ASSERT:
         expect($accessToken)->toBeInstanceOf(NewAccessToken::class);
-        Event::assertNotDispatched(ImpersonationCompletedEvent::class);
+        Event::assertNotDispatched(ImpersonationCompleted::class);
 
         $this->assertDatabaseHas('impersonations', [
             'impersonator_type' => Admin::class,

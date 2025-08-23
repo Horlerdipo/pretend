@@ -2,7 +2,6 @@
 
 namespace Horlerdipo\Pretend;
 
-use Horlerdipo\Pretend\Commands\PretendCommand;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Application;

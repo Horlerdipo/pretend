@@ -1,6 +1,6 @@
 <?php
 
-use Carbon\Unit;
+use Horlerdipo\Pretend\Enums\Unit;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

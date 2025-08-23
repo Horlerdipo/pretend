@@ -2,7 +2,7 @@
 
 namespace Horlerdipo\Pretend\Data;
 
-use Carbon\Unit;
+use Horlerdipo\Pretend\Enums\Unit;
 
 readonly class CompleteImpersonationData
 {

@@ -16,7 +16,7 @@ beforeEach(function () {
         impersonationToken: Str::random(),
         abilities: ['*'],
         expiresIn: fake()->randomDigit(),
-        duration: fake()->randomElement(\Carbon\Unit::cases())
+        duration: fake()->randomElement(\Horlerdipo\Pretend\Enums\Unit::cases())
     );
 
     $this->databaseStorage = new DatabaseStorage;
@@ -33,7 +33,7 @@ it('can connect to database', function () {
             'token' => 'hi',
             'used' => true,
             'expires_in' => 'hi',
-            'duration' => \Carbon\Unit::Year,
+            'duration' => \Horlerdipo\Pretend\Enums\Unit::Year,
             'abilities' => 'hi',
         ]);
 

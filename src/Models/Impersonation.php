@@ -2,7 +2,7 @@
 
 namespace Horlerdipo\Pretend\Models;
 
-use Carbon\Unit;
+use Horlerdipo\Pretend\Enums\Unit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 

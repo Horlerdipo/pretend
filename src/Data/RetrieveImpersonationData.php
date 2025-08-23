@@ -3,7 +3,7 @@
 namespace Horlerdipo\Pretend\Data;
 
 use Carbon\CarbonInterface;
-use Carbon\Unit;
+use Horlerdipo\Pretend\Enums\Unit;
 
 readonly class RetrieveImpersonationData
 {

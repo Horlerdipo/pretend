@@ -6,7 +6,7 @@ use Horlerdipo\Pretend\Data\RetrieveImpersonationData;
 use Illuminate\Foundation\Events\Dispatchable;
 use Laravel\Sanctum\NewAccessToken;
 
-class ImpersonationCompletedEvent
+class ImpersonationCompleted
 {
     use Dispatchable;
 

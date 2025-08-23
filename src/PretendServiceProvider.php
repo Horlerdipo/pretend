@@ -2,7 +2,6 @@
 
 namespace Horlerdipo\Pretend;
 
-use Horlerdipo\Pretend\Commands\PretendCommand;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Application;
@@ -21,8 +20,7 @@ class PretendServiceProvider extends PackageServiceProvider
         $package
             ->name('pretend')
             ->hasConfigFile()
-            ->hasMigration('create_impersonations_table')
-            ->hasCommand(PretendCommand::class);
+            ->hasMigration('create_impersonations_table');
     }
 
     public function registeringPackage(): void

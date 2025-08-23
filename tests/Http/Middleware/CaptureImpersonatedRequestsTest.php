@@ -1,6 +1,6 @@
 <?php
 
-use Horlerdipo\Pretend\Events\ImpersonatedRequestProcessedEvent;
+use Horlerdipo\Pretend\Events\ImpersonatedRequestProcessed;
 use Horlerdipo\Pretend\Http\Middleware\CaptureImpersonatedRequests;
 use Horlerdipo\Pretend\Tests\TestSupport\Models\User;
 
@@ -32,7 +32,6 @@ beforeEach(closure: function () {
 
 it('does not capture unauthenticated requests', closure: function () {
     // ACT:
-    /** @var \Illuminate\Http\Response $response */
     $response = (new CaptureImpersonatedRequests)
         ->handle(
             request: $this->request,
@@ -45,7 +44,7 @@ it('does not capture unauthenticated requests', closure: function () {
         ->and($response->getContent())
         ->toBe($this->content);
 
-    Event::assertNotDispatched(ImpersonatedRequestProcessedEvent::class);
+    Event::assertNotDispatched(ImpersonatedRequestProcessed::class);
 });
 
 it('only capture requests with impersonated users', function () {
@@ -73,7 +72,7 @@ it('only capture requests with impersonated users', function () {
         ->and($response->getContent())
         ->toBe($this->content);
 
-    Event::assertNotDispatched(ImpersonatedRequestProcessedEvent::class);
+    Event::assertNotDispatched(ImpersonatedRequestProcessed::class);
 });
 
 it('only capture requests when the config is set', function () {
@@ -102,7 +101,7 @@ it('only capture requests when the config is set', function () {
         ->and($response->getContent())
         ->toBe($this->content);
 
-    Event::assertNotDispatched(ImpersonatedRequestProcessedEvent::class);
+    Event::assertNotDispatched(ImpersonatedRequestProcessed::class);
 });
 
 it('successfully dispatches the event when the request is from an impersonated user and the config is set', function () {
@@ -131,5 +130,5 @@ it('successfully dispatches the event when the request is from an impersonated u
         ->and($response->getContent())
         ->toBe($this->content);
 
-    Event::assertDispatched(ImpersonatedRequestProcessedEvent::class);
+    Event::assertDispatched(ImpersonatedRequestProcessed::class);
 });

@@ -5,7 +5,7 @@ namespace Horlerdipo\Pretend\Events;
 use Horlerdipo\Pretend\Data\StartImpersonationData;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class ImpersonationStartedEvent
+class ImpersonationStarted
 {
     use Dispatchable;
 

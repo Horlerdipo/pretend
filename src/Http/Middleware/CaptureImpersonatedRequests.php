@@ -3,7 +3,7 @@
 namespace Horlerdipo\Pretend\Http\Middleware;
 
 use Closure;
-use Horlerdipo\Pretend\Events\ImpersonatedRequestProcessedEvent;
+use Horlerdipo\Pretend\Events\ImpersonatedRequestProcessed;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Sanctum\Contracts\HasApiTokens;
@@ -26,7 +26,7 @@ class CaptureImpersonatedRequests
                  * @phpstan-ignore-next-line
                  */
                 if (optional($user->currentAccessToken())?->name === config()->string('pretend.auth_token_prefix')) {
-                    ImpersonatedRequestProcessedEvent::dispatch(
+                    ImpersonatedRequestProcessed::dispatch(
                         $user->currentAccessToken(),
                         $request,
                         $response

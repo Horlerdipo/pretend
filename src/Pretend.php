@@ -5,8 +5,8 @@ namespace Horlerdipo\Pretend;
 use Carbon\Unit;
 use Horlerdipo\Pretend\Contracts\HasImpersonationStorage;
 use Horlerdipo\Pretend\Data\StartImpersonationData;
-use Horlerdipo\Pretend\Events\ImpersonationCompletedEvent;
-use Horlerdipo\Pretend\Events\ImpersonationStartedEvent;
+use Horlerdipo\Pretend\Events\ImpersonationCompleted;
+use Horlerdipo\Pretend\Events\ImpersonationStarted;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotFound;
 use Horlerdipo\Pretend\Exceptions\ImpersonatedModelNotSet;
 use Horlerdipo\Pretend\Exceptions\ImpersonationTokenExpired;
@@ -142,7 +142,7 @@ class Pretend
         $storageImplementation = app(HasImpersonationStorage::class);
         $storageImplementation->store($dto = $this->buildDto($token));
 
-        ImpersonationStartedEvent::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $dto);
+        ImpersonationStarted::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $dto);
 
         return $token;
     }
@@ -201,7 +201,7 @@ class Pretend
 
         $storageImplementation->markAsUsed($token);
 
-        ImpersonationCompletedEvent::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $impersonationEntry, $newAccessToken);
+        ImpersonationCompleted::dispatchIf(config()->boolean('pretend.allow_events_dispatching'), $impersonationEntry, $newAccessToken);
 
         return $newAccessToken;
     }
